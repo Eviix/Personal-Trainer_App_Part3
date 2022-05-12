@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
@@ -10,7 +10,6 @@ import moment from 'moment';
 export default function Trainings(){
     const [trainings, setTrainings] = useState([]);
     const [open, setOpen] = React.useState(false);
-    const gridRef = useRef();
     const [msg, setMsg] = useState('');
    
     useEffect(() => {
