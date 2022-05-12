@@ -46,7 +46,7 @@ export default function Addtraining({ addTraining, params }) {
                 value={training.date}
                 onChange={inputChanged}
                 margin="dense"
-                label="For example (YYYY-MM-DD)"  
+                label="(YYYY-MM-DD)"  
                 fullWidth
                 variant="standard"
               />
