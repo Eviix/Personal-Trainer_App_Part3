@@ -45,7 +45,7 @@ export default function Trainings(){
   };
 
     const columns = [
-        { field: 'Date', field: 'date', cellRenderer: (data) => { return moment(data.value).format("HH:mm, DD-MMM-YY")}, sortable: true, filter: true },
+        { field: 'date', cellRenderer: (data) => { return moment(data.value).format("HH:mm, DD-MMM-YY")}, sortable: true, filter: true },
         { field: 'duration', sortable: true, filter: true },
         { field: 'activity', sortable: true, filter: true },
 
