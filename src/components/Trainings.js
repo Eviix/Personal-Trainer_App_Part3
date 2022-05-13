@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Snackbar from '@mui/material/Snackbar';
 import moment from 'moment';
@@ -10,6 +11,7 @@ import moment from 'moment';
 export default function Trainings(){
     const [trainings, setTrainings] = useState([]);
     const [open, setOpen] = React.useState(false);
+    const gridRef = useRef();
     const [msg, setMsg] = useState('');
    
     useEffect(() => {
@@ -22,6 +24,10 @@ export default function Trainings(){
         .then(data => setTrainings(data))
         .catch((err) => console.error(err));
     }
+
+    const exportData = useCallback(() => {
+      gridRef.current.api.exportDataAsCsv();
+  }, []);
 
     const deleteTraining = (id) => {
       if (window.confirm('Are you sure?')) {
@@ -69,8 +75,12 @@ export default function Trainings(){
 
     return(
         <>
+        <Button id="Exportrainings" variant="outlined" color="success" onClick={() => exportData()}>
+             Export Training Data
+        </Button>
           <div className="ag-theme-material" style={{height: '600px', width: '70%'}}>
             <AgGridReact 
+              ref={gridRef}
               columnDefs={columns}
               rowData={trainings}
               pagination={true}

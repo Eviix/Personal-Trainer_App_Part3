@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Snackbar from '@mui/material/Snackbar';
 import Addtraining from './AddTraining';
@@ -12,6 +13,7 @@ import EditCustomer from './EditCustomer';
 export default function Customers(){
     const [customers, setCustomers] = useState([]);
     const [open, setOpen] = React.useState(false);
+    const gridRef = useRef();
     const [msg, setMsg] = useState('');
 
     useEffect(() => {
@@ -24,6 +26,10 @@ export default function Customers(){
         .then(data => setCustomers(data.content))
         .catch((err) => console.error(err));
     }
+
+    const exportData = useCallback(() => {
+      gridRef.current.api.exportDataAsCsv();
+  }, []);
 
     const deleteCustomer = (link) => {
       if (window.confirm('Are you sure?')) {
@@ -131,9 +137,13 @@ export default function Customers(){
 
     return(
         <>
+        <Button id="Exportcustomers" variant="outlined" color="success" onClick={() => exportData()}>
+            Export Customer Data
+        </Button>
         <Addcustomer addCustomer={addCustomer} />
           <div className="ag-theme-material" style={{height: '600px', width: '70%'}}>
             <AgGridReact 
+              ref={gridRef}
               columnDefs={columns}
               rowData={customers}
               pagination={true}
